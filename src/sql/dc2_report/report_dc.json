@@ -1,0 +1,16 @@
+{
+  "template_file": null,
+  "template_header_rows": 1,
+  "queries": [
+    {
+      "name": "opcode_30",
+      "file": "opcode_30.sql",
+      "sheet_name": "opcode_30"
+    },
+    {
+      "name": "opcode_45",
+      "file": "opcode_45.sql",
+      "sheet_name": "opcode_45"
+    }
+  ]
+}

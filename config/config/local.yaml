@@ -1,0 +1,73 @@
+# Local development configuration
+LOG_LEVEL: DEBUG
+LOG_STYLE: readable
+LOG_FILE_PATH: logs/app.log
+APP_NAME: Potential Fraud COD Report
+APP_VERSION: 1.0.0
+DEBUG: true
+
+# ── Database (secrets in .env) ──────────────────────────────────────
+DB_HOST: 127.0.0.1
+DB_PORT: 1234
+DB_NAME: ${db_name}
+DB_USER: ${db_user}
+DB_PASSWORD: ${DB_PASSWORD}
+
+# ── SMTP ────────────────────────────────────────────────────────────
+SMTP:
+  HOST: ${HOST_SMTP}
+  PORT: 587
+  USER: ${SMTP_USER}
+  PASSWORD: ${SMTP_PASSWORD}
+  USE_TLS: true
+
+# ── Report defaults ─────────────────────────────────────────────────
+REPORT:
+  SCHEDULE_TYPE: daily          # daily / weekly / monthly
+  OUTPUT_FORMAT: xlsx           # xlsx / csv
+  FILE_PATH: ./data/reports
+  FILENAME_TEMPLATE: "Daily_Report_Delivery_By_${region}_${tgl}"
+  TEMP_PATH: ./temp
+  ENABLE_UPLOAD: true           # enable SharePoint upload for report jobs
+
+
+# ── Email ───────────────────────────────────────────────────────────
+EMAIL:
+  ENABLED: True
+  TEMPLATE_PATH: config/config/email_template.jinja2
+  # Recipients read from DB (config_process_switch) at runtime
+
+# ── Queries ─────────────────────────────────────────────────────────
+QUERIES:
+  MANIFEST_PATH: src/sql/manifest.json
+
+# ── SharePoint / OneDrive ──────────────────────────────────────────
+# Global SCANS config used by all report jobs for SharePoint uploads.
+# Each job references a SCAN_ID to resolve OAuth credentials & drive path.
+SHAREPOINT_CONTENT_EXTRACTOR:
+  SCANS:
+    - SCAN_ID: "onedrive_finance"
+      ACCOUNT_NAME: ${DRIVE_FINANCE_ACCOUNT_NAME}
+      UPLOAD_CONFIG_NAME:${DRIVE_FINANCE_UPLOAD_CONFIG_NAME}
+      TOKEN_CONFIG_NAME: config_token_finance
+      DRIVE_ID: ${DRIVE_FINANCE_ID}
+
+    - SCAN_ID: "onedrive_it_reporting"
+      ACCOUNT_NAME: ${DRIVE_ACCOUNT_NAME}
+      UPLOAD_CONFIG_NAME: ${DRIVE_UPLOAD_CONFIG_NAME}
+      TOKEN_CONFIG_NAME: ${DRIVE_TOKEN_CONFIG_NAME}
+      DRIVE_ID: ${DRIVE_IT_REPORTING_ID}
+
+    - SCAN_ID: "sharepoint_finance"
+      ACCOUNT_NAME: ${DRIVE_FINANCE_ACCOUNT_NAME}
+      UPLOAD_CONFIG_NAME: ${DRIVE_FINANCE_UPLOAD_CONFIG_NAME}
+      TOKEN_CONFIG_NAME: ${DRIVE_FINANCE_TOKEN_CONFIG_NAME}
+      DRIVE_ID: ${DRIVE_SHAREPOINT_ID}
+
+# ── Finance Database (for e-bill lookups) ───────────────────────────
+DB_FINANCE:
+  HOST: 127.0.0.1
+  PORT: 1212
+  NAME: ${DB_FINANCE_NAME}
+  USER: ${DB_FINANCE_USER}
+  PASSWORD: ${DB_FINANCE_PASSWORD}
